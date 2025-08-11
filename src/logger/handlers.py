@@ -1,21 +1,16 @@
-"""
-Logger utility for initializing colored and file-based logging with verbosity control.
-"""
+"""Logger utility for initializing colored and file-based logging with verbosity control."""
 
 import os
 import sys
 import logging
 import colorlog
 
-from src.config.settings import ConfigurationManager
 
-
-def get_logger(config: ConfigurationManager, verbose: bool = False) -> logging.Logger:
+def get_logger(verbose: bool = False) -> logging.Logger:
     """
     Initializes and returns a logger with color-coded console output and file logging.
 
     Args:
-        config (ConfigurationManager): The configuration manager containing logging paths and names.
         verbose (bool, optional): If True, sets logging level to DEBUG; otherwise INFO. Defaults to False.
 
     Returns:
@@ -25,7 +20,10 @@ def get_logger(config: ConfigurationManager, verbose: bool = False) -> logging.L
         OSError: If the log directory or file cannot be created.
     """
 
-    log_file = os.path.join(config.log_dir, "running_logs.log")
+    log_dir = "logs"
+    os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, "running_logs.log")
+
     log_level = logging.DEBUG if verbose else logging.INFO
 
     log_format = "%(log_color)s[%(levelname)s]%(reset)s - %(message)s"
@@ -37,7 +35,7 @@ def get_logger(config: ConfigurationManager, verbose: bool = False) -> logging.L
         "CRITICAL": "magenta",
     }
 
-    logger = logging.getLogger(config.logger_name)
+    logger = logging.getLogger(__name__)
     logger.setLevel(log_level)
     logger.propagate = False
 

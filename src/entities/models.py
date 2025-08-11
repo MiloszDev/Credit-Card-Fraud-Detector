@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class GeneralConfig:
+    name: str
     seed: int
     device: str
 
@@ -14,8 +15,7 @@ class DataConfig:
     raw_path: Path
     processed_path: Path
     test_split: float
-    scaler: str
-
+    
 @dataclass(frozen=True)
 class EnvironmentConfig:
     type: str

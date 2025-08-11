@@ -1,6 +1,4 @@
-"""
-Utility functions for reading YAML files with optional verbosity.
-"""
+"""Utility functions for reading YAML files with optional verbosity."""
 
 import yaml
 import logging

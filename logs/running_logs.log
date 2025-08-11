@@ -1,0 +1,67 @@
+[INFO]: 2025-07-25 13:45:50,700 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:12:43,673 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:19:23,488 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:22:06,537 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:29:58,416 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:35:23,131 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:40:18,858 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:40:52,014 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:43:36,575 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:44:40,025 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:46:32,299 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:47:22,323 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:49:57,562 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:52:22,872 - Logger initialized successfully.
+[INFO]: 2025-07-25 15:53:51,254 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:18:41,051 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:21:11,835 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:23:54,288 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:26:03,992 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:26:42,497 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:30:04,938 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:31:54,237 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:34:07,475 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:41:22,810 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:43:26,268 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:44:45,199 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:45:36,350 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:47:39,428 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:49:06,960 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:49:59,465 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:53:10,340 - Logger initialized successfully.
+[INFO]: 2025-07-26 12:54:46,130 - Logger initialized successfully.
+[INFO]: 2025-07-26 13:09:17,339 - Logger initialized successfully.
+[INFO]: 2025-07-26 13:11:05,880 - Logger initialized successfully.
+[INFO]: 2025-07-26 13:30:41,514 - Successfully ingested data from: data\raw\creditcard.csv
+[INFO]: 2025-08-01 16:14:24,456 - Successfully ingested data from: data\raw\creditcard.csv
+[INFO]: 2025-08-01 16:14:58,826 - Starting data preprocessing...
+[INFO]: 2025-08-01 16:14:58,950 - Starting data splitting...
+[INFO]: 2025-08-01 16:14:59,649 - Data cleaning and splitting completed successfully.
+[INFO]: 2025-08-01 16:33:55,959 - Successfully ingested data from: data\raw\creditcard.csv
+[INFO]: 2025-08-01 16:34:33,197 - Starting data preprocessing...
+[INFO]: 2025-08-01 16:34:49,910 - Starting data splitting...
+[INFO]: 2025-08-01 16:34:50,576 - Data cleaning and splitting completed successfully.
+[INFO]: 2025-08-02 09:06:34,704 - Successfully ingested data from: data\raw\creditcard.csv
+[INFO]: 2025-08-02 09:06:59,534 - Starting data preprocessing...
+[INFO]: 2025-08-02 09:06:59,736 - Starting data splitting...
+[INFO]: 2025-08-02 09:07:00,511 - Data cleaning and splitting completed successfully.
+[INFO]: 2025-08-02 09:11:53,943 - Successfully ingested data from: data\raw\creditcard.csv
+[INFO]: 2025-08-02 09:12:10,162 - Starting data preprocessing...
+[INFO]: 2025-08-02 09:12:10,349 - Starting data splitting...
+[INFO]: 2025-08-02 09:12:11,115 - Data cleaning and splitting completed successfully.
+[INFO]: 2025-08-02 09:14:21,737 - Successfully ingested data from: data\raw\creditcard.csv
+[INFO]: 2025-08-02 09:14:37,923 - Starting data preprocessing...
+[INFO]: 2025-08-02 09:14:38,109 - Starting data splitting...
+[INFO]: 2025-08-02 09:14:38,833 - Data cleaning and splitting completed successfully.
+[INFO]: 2025-08-02 09:21:02,224 - Successfully ingested data from: data\raw\creditcard.csv
+[INFO]: 2025-08-02 09:21:40,606 - Starting data preprocessing...
+[INFO]: 2025-08-02 09:21:40,811 - Starting data splitting...
+[INFO]: 2025-08-02 09:21:41,508 - Data cleaning and splitting completed successfully.
+[INFO]: 2025-08-02 09:36:20,352 - Successfully ingested data from: data\raw\creditcard.csv
+[INFO]: 2025-08-02 09:36:36,504 - Starting data preprocessing...
+[INFO]: 2025-08-02 09:36:36,678 - Starting data splitting...
+[INFO]: 2025-08-02 09:36:37,423 - Data cleaning and splitting completed successfully.
+[INFO]: 2025-08-11 10:42:26,513 - Successfully ingested data from: data\raw\creditcard.csv
+[INFO]: 2025-08-11 10:42:47,090 - Starting data preprocessing...
+[INFO]: 2025-08-11 10:42:47,216 - Starting data splitting...
+[INFO]: 2025-08-11 10:42:47,655 - Data cleaning and splitting completed successfully.

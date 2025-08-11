@@ -1,9 +1,11 @@
-"""Manages loading configurations for the data pipeline."""
+"""Configuration manager for loading and accessing YAML configuration files."""
 
 from pathlib import Path
-from src.logger import handlers
+from typing import Type, TypeVar, Any, Optional
+
 from src.utils.functions import read_yaml
 from src.entities.models import (
+    GeneralConfig,
     DataConfig,
     EnvironmentConfig,
     DqnAgentConfig,
@@ -12,181 +14,117 @@ from src.entities.models import (
     LoggingConfig
 )
 
+T = TypeVar('T')
 
 class ConfigurationManager:
     """
-    Loads configuration from the configuration file.
+    Loads configuration from a YAML file and provides typed access to config sections.
     """
 
     def __init__(self, config_file_path: Path) -> None:
         """
-        Initialize the ConfigurationManager by loading the YAML configuration file.
+        Initialize ConfigurationManager by loading the YAML configuration file.
 
         Args:
             config_file_path (Path): Path to the configuration YAML file.
-
-        Raises:
-            RuntimeError: If the configuration file cannot be read or parsed.
         """
-        try:
-            self.config = read_yaml(config_file_path)
+        self.config = self._load_yaml(config_file_path)
 
-        except Exception as e:
-            raise RuntimeError(f"Error loading the configuration file or creating directories: {e}")
-
-    @staticmethod
-    def _convert_to_path(path: str) -> Path:
+    def _load_yaml(self, path: Path) -> dict[str, Any]:
         """
-        Converts a string path to a Path object.
+        Load YAML configuration from a file.
 
         Args:
-            path (str): Path as a string.
+            path (Path): Path to the YAML config file.
 
         Returns:
-            Path: Path object.
+            dict[str, Any]: Parsed YAML content.
+
+        Raises:
+            RuntimeError: If the file cannot be read or parsed.
         """
-        return Path(path)
+        try:
+            return read_yaml(path)
+        except Exception as e:
+            raise RuntimeError(f"Error loading config file '{path}': {e}") from e
+
+    def _get_config_section(
+        self,
+        section_name: str,
+        config_type: Type[T],
+        key_map: Optional[dict[str, str]] = None
+    ) -> T:
+        """
+        Retrieve and parse a specific configuration section into a dataclass.
+
+        Args:
+            section_name (str): Key of the config section in YAML.
+            config_type (Type[T]): Dataclass type to parse the section into.
+            key_map (Optional[dict[str, str]]): Optional key remapping from YAML keys to dataclass fields.
+
+        Returns:
+            T: An instance of the config dataclass.
+
+        Raises:
+            KeyError: If the config section is missing.
+            ValueError: If the config section is not a dict or parsing fails.
+        """
+        try:
+            section = self.config[section_name]
+        except KeyError as e:
+            raise KeyError(f"Missing required config section '{section_name}'") from e
+
+        if not isinstance(section, dict):
+            raise ValueError(f"Config section '{section_name}' must be a dictionary")
+
+        if key_map:
+            section = {key_map.get(k, k): v for k, v in section.items()}
+
+        try:
+            section = self._convert_paths(section)
+            return config_type(**section)
+        except Exception as e:
+            raise ValueError(f"Error parsing config section '{section_name}': {e}") from e
+
+    def _convert_paths(self, config_section: dict[str, Any]) -> dict[str, Any]:
+        """
+        Convert string paths in the config section to pathlib.Path objects.
+
+        Args:
+            config_section (dict[str, Any]): Config section dictionary.
+
+        Returns:
+            dict[str, Any]: Config section with path strings converted to Path objects.
+        """
+        converted = {}
+        for key, value in config_section.items():
+            if isinstance(value, str) and (key.endswith('_path') or key.endswith('_dir')):
+                converted[key] = Path(value)
+            else:
+                converted[key] = value
+        return converted
+
+    def get_general_config(self) -> GeneralConfig:
+        return self._get_config_section('general', GeneralConfig)
 
     def get_data_config(self) -> DataConfig:
-        """
-        Retrieves data configuration.
-
-        Returns:
-            DataConfig: Parsed data configuration.
-
-        Raises:
-            KeyError, ValueError: If required data keys are missing or invalid.
-        """
-        try:
-            config = self.config["data"]
-
-            return DataConfig(
-                raw_path=self._convert_to_path(config["raw_path"]),
-                processed_path=self._convert_to_path(config["processed_path"]),
-                test_split=float(config["test_split"]),
-                scaler=config["scaler"]
-            )
-        
-        except Exception as e:
-            raise ValueError(f"Error loading data config: {e}")
+        return self._get_config_section('data', DataConfig)
 
     def get_environment_config(self) -> EnvironmentConfig:
-        """
-        Retrieves environment configuration.
-
-        Returns:
-            EnvironmentConfig: Parsed environment configuration.
-
-        Raises:
-            KeyError, ValueError: If required environment keys are missing or invalid.
-        """
-        try:
-            config = self.config["env"]
-
-            return EnvironmentConfig(
-                type=config["type"],
-                steps=int(config["steps"])
-            )
-        
-        except Exception as e:
-            raise ValueError(f"Error loading environment config: {e}")
+        return self._get_config_section('env', EnvironmentConfig)
 
     def get_dqn_config(self) -> DqnAgentConfig:
-        """
-        Retrieves DQN agent configuration.
-
-        Returns:
-            DqnAgentConfig: Parsed DQN configuration.
-
-        Raises:
-            KeyError, ValueError: If required DQN keys are missing or invalid.
-        """
-        try:
-            config = self.config["dqn"]
-
-            return DqnAgentConfig(
-                state_dim=int(config["state_dim"]),
-                action_dim=int(config["action_dim"]),
-                hidden_dim=int(config["hidden_dim"]),
-                gamma=float(config["gamma"]),
-                epsilon_start=float(config["epsilon_start"]),
-                epsilon_min=float(config["epsilon_min"]),
-                epsilon_decay=float(config["epsilon_decay"]),
-                learning_rate=float(config["learning_rate"]),
-                target_update_freq=int(config["target_update_freq"]),
-                memory_size=int(config["memory_size"]),
-                batch_size=int(config["batch_size"])
-            )
-        
-        except Exception as e:
-            raise ValueError(f"Error loading DQN config: {e}")
+        return self._get_config_section('dqn', DqnAgentConfig)
 
     def get_training_config(self) -> TrainingConfig:
-        """
-        Retrieves training configuration.
-
-        Returns:
-            TrainingConfig: Parsed training configuration.
-
-        Raises:
-            KeyError, ValueError: If required training keys are missing or invalid.
-        """
-        try:
-            config = self.config["training"]
-
-            return TrainingConfig(
-                num_episodes=int(config["num_episodes"]),
-                max_steps_per_episode=int(config["max_steps_per_episode"]),
-                log_interval=int(config["log_interval"]),
-                save_model=bool(config["save_model"]),
-                model_save_path=self._convert_to_path(config["model_save_path"])
-            )
-        
-        except Exception as e:
-            raise ValueError(f"Error loading training config: {e}")
+        return self._get_config_section('training', TrainingConfig)
 
     def get_evaluation_config(self) -> EvaluationConfig:
-        """
-        Retrieves evaluation configuration.
-
-        Returns:
-            EvaluationConfig: Parsed evaluation configuration.
-
-        Raises:
-            KeyError, ValueError: If required evaluation keys are missing or invalid.
-        """
-        try:
-            config = self.config["evaluation"]
-
-            return EvaluationConfig(
-                metrics=config["metrics"],
-                threshold=float(config["threshold"]),
-                visualize=bool(config.get("visualize_confusion_matrix", False))
-            )
-        
-        except Exception as e:
-            raise ValueError(f"Error loading evaluation config: {e}")
+        return self._get_config_section(
+            'evaluation',
+            EvaluationConfig,
+            key_map={'visualize_confusion_matrix': 'visualize'}
+        )
 
     def get_logging_config(self) -> LoggingConfig:
-        """
-        Retrieves logging configuration.
-
-        Returns:
-            LoggingConfig: Parsed logging configuration.
-
-        Raises:
-            KeyError, ValueError: If required logging keys are missing or invalid.
-        """
-        try:
-            config = self.config["logging"]
-            
-            return LoggingConfig(
-                use_wandb=bool(config["use_wandb"]),
-                wandb_project=config["wandb_project"],
-                wandb_entity=config["wandb_entity"],
-                logger_name=config["logger_name"],
-                log_dir=self._convert_to_path(config["log_dir"])
-            )
-        
-        except Exception as e:
-            raise ValueError(f"Error loading logging config: {e}")
+        return self._get_config_section('logging', LoggingConfig)

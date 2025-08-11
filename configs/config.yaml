@@ -1,0 +1,45 @@
+general:
+  name: fraud-rla
+  seed: 42
+  device: "cpu"
+
+data:
+  raw_path: "data/raw/creditcard.csv"
+  processed_path: "data/processed/processed_data.csv"
+  test_split: 0.2
+
+env:
+  type: "fraud_env"
+  steps: 1000
+
+dqn:
+  state_dim: 30
+  action_dim: 2
+  hidden_dim: 128
+  gamma: 0.99
+  epsilon_start: 1.0
+  epsilon_min: 0.05
+  epsilon_decay: 0.995
+  learning_rate: 0.0005
+  target_update_freq: 10
+  memory_size: 50000
+  batch_size: 64
+
+training:
+  num_episodes: 300
+  max_steps_per_episode: 1000
+  log_interval: 10
+  save_model: true
+  model_save_path: "models/fraud_policy.pt"
+
+evaluation:
+  metrics: ["accuracy", "precision", "recall", "f1", "auc"]
+  threshold: 0.5
+  visualize_confusion_matrix: true
+
+logging:
+  use_wandb: true
+  wandb_project: "fraud-rla"
+  wandb_entity: "your_username_or_team"
+  logger_name: "Fraud RLA Logger"
+  log_dir: "logs/"
