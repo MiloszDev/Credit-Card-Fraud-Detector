@@ -65,3 +65,337 @@
 [INFO]: 2025-08-11 10:42:47,090 - Starting data preprocessing...
 [INFO]: 2025-08-11 10:42:47,216 - Starting data splitting...
 [INFO]: 2025-08-11 10:42:47,655 - Data cleaning and splitting completed successfully.
+[INFO]: 2025-08-11 21:18:39,614 - Logger initialized successfully.
+[INFO]: 2025-08-11 21:18:39,616 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-11 21:18:39,620 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-11 21:18:39,620 - Step 1: Data ingestion
+[INFO]: 2025-08-11 21:18:39,622 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-11 21:18:39,625 - Step 3: Model training
+[ERROR]: 2025-08-11 21:18:39,627 - Pipeline failed: Input validation failed for input 'pretrained_path': Expected type `<class 'str'>` but received type `<class 'NoneType'>`.
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\AppData\Roaming\Python\Python312\site-packages\zenml\steps\entrypoint_function_utils.py", line 181, in validate_input
+    self._validate_input_value(parameter=parameter, value=value)
+  File "C:\Users\Mi這szZawolik\AppData\Roaming\Python\Python312\site-packages\zenml\steps\entrypoint_function_utils.py", line 210, in _validate_input_value
+    validation_model_class(value=value)
+  File "C:\Users\Mi這szZawolik\AppData\Roaming\Python\Python312\site-packages\pydantic\main.py", line 193, in __init__
+    self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for input_validation_model
+value
+  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.8/v/string_type
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\pipelines\training_pipeline.py", line 80, in train_pipeline
+    model = train_model(X_train, y_train, pretrained_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\AppData\Roaming\Python\Python312\site-packages\zenml\steps\base_step.py", line 493, in __call__
+    ) = self._parse_call_args(*args, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\AppData\Roaming\Python\Python312\site-packages\zenml\steps\base_step.py", line 360, in _parse_call_args
+    self.entrypoint_definition.validate_input(key=key, value=value)
+  File "C:\Users\Mi這szZawolik\AppData\Roaming\Python\Python312\site-packages\zenml\steps\entrypoint_function_utils.py", line 183, in validate_input
+    raise RuntimeError(
+RuntimeError: Input validation failed for input 'pretrained_path': Expected type `<class 'str'>` but received type `<class 'NoneType'>`.
+[INFO]: 2025-08-11 21:20:25,877 - Logger initialized successfully.
+[INFO]: 2025-08-11 21:20:25,877 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-11 21:20:25,881 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-11 21:20:25,881 - Step 1: Data ingestion
+[INFO]: 2025-08-11 21:20:25,884 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-11 21:20:25,887 - Step 3: Model training
+[INFO]: 2025-08-11 21:20:25,888 - Step 4: Model evaluation
+[INFO]: 2025-08-11 21:20:25,889 - Pipeline completed successfully
+[INFO]: 2025-08-11 21:20:25,889 - Results: {'precision_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000018D44BA5D30>, 'recall_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000018D44BA6C30>, 'f1_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000018D44BA6630>, 'roc_auc_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000018D44BA67B0>}
+[INFO]: 2025-08-11 21:20:34,181 - Logger initialized successfully.
+[INFO]: 2025-08-11 21:20:34,202 - Successfully ingested data from: data\raw\creditcard.csv
+[INFO]: 2025-08-11 21:20:58,742 - Starting data preprocessing...
+[ERROR]: 2025-08-11 21:20:58,742 - Failed during preprocessing: Missing required columns: {'Time', 'Class', 'Amount'}
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 63, in process_data
+    raise ValueError(f"Missing required columns: {required_columns - set(data.columns)}")
+ValueError: Missing required columns: {'Time', 'Class', 'Amount'}
+[ERROR]: 2025-08-11 21:20:58,744 - Data processing failed in DataCleaner: Missing required columns: {'Time', 'Class', 'Amount'}
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 175, in process_data
+    return self.strategy.process_data(self.data, self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 63, in process_data
+    raise ValueError(f"Missing required columns: {required_columns - set(data.columns)}")
+ValueError: Missing required columns: {'Time', 'Class', 'Amount'}
+[ERROR]: 2025-08-11 21:20:58,745 - Error during data cleaning step: Missing required columns: {'Time', 'Class', 'Amount'}
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\pipelines\stages\clean_data.py", line 43, in clean_data
+    processed_data = data_cleaner.process_data()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 175, in process_data
+    return self.strategy.process_data(self.data, self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 63, in process_data
+    raise ValueError(f"Missing required columns: {required_columns - set(data.columns)}")
+ValueError: Missing required columns: {'Time', 'Class', 'Amount'}
+[INFO]: 2025-08-12 08:33:32,736 - Logger initialized successfully.
+[INFO]: 2025-08-12 08:33:32,737 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-12 08:33:32,747 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-12 08:33:32,748 - Step 1: Data ingestion
+[INFO]: 2025-08-12 08:33:32,752 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-12 08:33:32,757 - Step 3: Model training
+[INFO]: 2025-08-12 08:33:32,760 - Step 4: Model evaluation
+[INFO]: 2025-08-12 08:33:32,761 - Pipeline completed successfully
+[INFO]: 2025-08-12 08:33:32,762 - Results: {'precision_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000001C152D6E330>, 'recall_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000001C152D6E210>, 'f1_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000001C152D6D280>, 'roc_auc_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000001C152D6EDE0>}
+[INFO]: 2025-08-12 08:33:47,474 - Logger initialized successfully.
+[INFO]: 2025-08-12 08:33:47,475 - Starting data ingestion for: data\raw\creditcard.csv
+[INFO]: 2025-08-12 08:33:47,477 - Logger initialized successfully.
+[INFO]: 2025-08-12 08:33:47,478 - Loading data from: C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\data\raw\creditcard.csv
+[INFO]: 2025-08-12 08:33:47,512 - Successfully loaded 2 rows and 1 columns
+[INFO]: 2025-08-12 08:33:47,517 - DataFrame memory usage: 0.00MB
+[INFO]: 2025-08-12 08:33:47,519 - Data ingestion completed successfully
+[INFO]: 2025-08-12 08:37:47,032 - Logger initialized successfully.
+[INFO]: 2025-08-12 08:37:47,033 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-12 08:37:47,042 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-12 08:37:47,042 - Step 1: Data ingestion
+[INFO]: 2025-08-12 08:37:47,046 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-12 08:37:47,053 - Step 3: Model training
+[INFO]: 2025-08-12 08:37:47,061 - Step 4: Model evaluation
+[INFO]: 2025-08-12 08:37:47,062 - Pipeline completed successfully
+[INFO]: 2025-08-12 08:37:47,063 - Results: {'precision_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x00000170E18EE540>, 'recall_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x00000170E18EC7A0>, 'f1_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x00000170E18EE8D0>, 'roc_auc_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x00000170E18EE690>}
+[INFO]: 2025-08-12 08:38:01,579 - Logger initialized successfully.
+[INFO]: 2025-08-12 08:38:01,580 - Starting data ingestion for: data\raw\creditcard.csv
+[INFO]: 2025-08-12 08:38:01,584 - Logger initialized successfully.
+[INFO]: 2025-08-12 08:38:01,584 - Loading data from: C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\data\raw\creditcard.csv
+[INFO]: 2025-08-12 08:38:01,605 - Successfully loaded 2 rows and 1 columns
+[INFO]: 2025-08-12 08:38:01,609 - DataFrame memory usage: 0.00MB
+[INFO]: 2025-08-12 08:38:01,610 - Data ingestion completed successfully
+[INFO]: 2025-08-12 08:38:33,907 - Logger initialized successfully.
+[ERROR]: 2025-08-12 08:38:33,908 - Data cleaning step failed: 'dict' object has no attribute 'test_split'
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\pipelines\stages\clean_data.py", line 30, in clean_data
+    test_split=data_config.test_split,
+               ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'test_split'
+[INFO]: 2025-08-12 08:44:52,555 - Logger initialized successfully.
+[INFO]: 2025-08-12 08:44:52,557 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-12 08:44:52,565 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-12 08:44:52,566 - Step 1: Data ingestion
+[INFO]: 2025-08-12 08:44:52,569 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-12 08:44:52,575 - Step 3: Model training
+[INFO]: 2025-08-12 08:44:52,581 - Step 4: Model evaluation
+[INFO]: 2025-08-12 08:44:52,583 - Pipeline completed successfully
+[INFO]: 2025-08-12 08:44:52,584 - Results: {'precision_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000001FC22A15910>, 'recall_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000001FC22A17F80>, 'f1_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000001FC22A16720>, 'roc_auc_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000001FC22A167E0>}
+[INFO]: 2025-08-12 08:45:06,880 - Logger initialized successfully.
+[ERROR]: 2025-08-12 08:45:06,882 - Data cleaning step failed: 'random_state'
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\pipelines\stages\clean_data.py", line 31, in clean_data
+    random_state=general_config["random_state"],
+                 ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+KeyError: 'random_state'
+[INFO]: 2025-08-12 08:46:19,432 - Logger initialized successfully.
+[INFO]: 2025-08-12 08:46:19,433 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-12 08:46:19,440 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-12 08:46:19,441 - Step 1: Data ingestion
+[INFO]: 2025-08-12 08:46:19,445 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-12 08:46:19,452 - Step 3: Model training
+[INFO]: 2025-08-12 08:46:19,455 - Step 4: Model evaluation
+[INFO]: 2025-08-12 08:46:19,457 - Pipeline completed successfully
+[INFO]: 2025-08-12 08:46:19,458 - Results: {'precision_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000019A876B3200>, 'recall_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000019A876B2AB0>, 'f1_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000019A876B26C0>, 'roc_auc_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000019A876B29F0>}
+[INFO]: 2025-08-12 08:46:33,689 - Logger initialized successfully.
+[ERROR]: 2025-08-12 08:46:33,692 - Data cleaning step failed: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 210, in process_data
+    processed_df = self.preprocessor.preprocess(df)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 124, in preprocess
+    DataValidator.validate_dataframe(df, {'Amount', 'Time', 'Class'})
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 34, in validate_dataframe
+    raise DataProcessingError(f"Insufficient data: {len(df)} rows (minimum: 100)")
+src.components.data_processing.DataProcessingError: Insufficient data: 2 rows (minimum: 100)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\pipelines\stages\clean_data.py", line 41, in clean_data
+    X_train, X_test, y_train, y_test = processor.process_data(
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 221, in process_data
+    raise DataProcessingError(f"Data processing failed: {str(e)}") from e
+src.components.data_processing.DataProcessingError: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+[INFO]: 2025-08-12 08:48:34,756 - Logger initialized successfully.
+[INFO]: 2025-08-12 08:48:34,757 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-12 08:48:34,766 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-12 08:48:34,766 - Step 1: Data ingestion
+[INFO]: 2025-08-12 08:48:34,770 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-12 08:48:34,777 - Step 3: Model training
+[INFO]: 2025-08-12 08:48:34,780 - Step 4: Model evaluation
+[INFO]: 2025-08-12 08:48:34,781 - Pipeline completed successfully
+[INFO]: 2025-08-12 08:48:34,782 - Results: {'precision_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x00000183650DD070>, 'recall_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x00000183650DCEF0>, 'f1_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x00000183650DCDD0>, 'roc_auc_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000018310F73140>}
+[INFO]: 2025-08-12 08:48:49,639 - Logger initialized successfully.
+[ERROR]: 2025-08-12 08:48:49,643 - Data cleaning step failed: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 210, in process_data
+    processed_df = self.preprocessor.preprocess(df)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 124, in preprocess
+    DataValidator.validate_dataframe(df, {'Amount', 'Time', 'Class'})
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 34, in validate_dataframe
+    raise DataProcessingError(f"Insufficient data: {len(df)} rows (minimum: 100)")
+src.components.data_processing.DataProcessingError: Insufficient data: 2 rows (minimum: 100)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\pipelines\stages\clean_data.py", line 41, in clean_data
+    X_train, X_test, y_train, y_test = processor.process_data(
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 221, in process_data
+    raise DataProcessingError(f"Data processing failed: {str(e)}") from e
+src.components.data_processing.DataProcessingError: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+[INFO]: 2025-08-12 08:51:21,318 - Logger initialized successfully.
+[INFO]: 2025-08-12 08:51:21,318 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-12 08:51:21,325 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-12 08:51:21,325 - Step 1: Data ingestion
+[INFO]: 2025-08-12 08:51:21,329 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-12 08:51:21,334 - Step 3: Model training
+[INFO]: 2025-08-12 08:51:21,342 - Step 4: Model evaluation
+[INFO]: 2025-08-12 08:51:21,345 - Pipeline completed successfully
+[INFO]: 2025-08-12 08:51:21,348 - Results: {'precision_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x00000216BE092D80>, 'recall_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000021692586DB0>, 'f1_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000021692584800>, 'roc_auc_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000021692584A40>}
+[INFO]: 2025-08-12 08:51:35,476 - Logger initialized successfully.
+[ERROR]: 2025-08-12 08:51:35,478 - Data cleaning step failed: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 210, in process_data
+    processed_df = self.preprocessor.preprocess(df)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 124, in preprocess
+    DataValidator.validate_dataframe(df, {'Amount', 'Time', 'Class'})
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 34, in validate_dataframe
+    raise DataProcessingError(f"Insufficient data: {len(df)} rows (minimum: 100)")
+src.components.data_processing.DataProcessingError: Insufficient data: 2 rows (minimum: 100)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\pipelines\stages\clean_data.py", line 41, in clean_data
+    X_train, X_test, y_train, y_test = processor.process_data(
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 221, in process_data
+    raise DataProcessingError(f"Data processing failed: {str(e)}") from e
+src.components.data_processing.DataProcessingError: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+[INFO]: 2025-08-12 09:17:26,024 - Logger initialized successfully.
+[INFO]: 2025-08-12 09:17:26,025 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-12 09:17:26,034 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-12 09:17:26,035 - Step 1: Data ingestion
+[INFO]: 2025-08-12 09:17:26,039 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-12 09:17:26,047 - Step 3: Model training
+[INFO]: 2025-08-12 09:17:26,051 - Step 4: Model evaluation
+[INFO]: 2025-08-12 09:17:26,053 - Pipeline completed successfully
+[INFO]: 2025-08-12 09:17:26,054 - Results: {'precision_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000020D5CFDE6C0>, 'recall_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000020D5CFDF320>, 'f1_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000020D5CFDF0B0>, 'roc_auc_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000020D5CFDE690>}
+[INFO]: 2025-08-12 09:17:39,063 - Logger initialized successfully.
+[ERROR]: 2025-08-12 09:17:39,065 - Data cleaning step failed: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 210, in process_data
+    processed_df = self.preprocessor.preprocess(df)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 124, in preprocess
+    DataValidator.validate_dataframe(df, {'Amount', 'Time', 'Class'})
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 34, in validate_dataframe
+    raise DataProcessingError(f"Insufficient data: {len(df)} rows (minimum: 100)")
+src.components.data_processing.DataProcessingError: Insufficient data: 2 rows (minimum: 100)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\pipelines\stages\clean_data.py", line 41, in clean_data
+    X_train, X_test, y_train, y_test = processor.process_data(
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 221, in process_data
+    raise DataProcessingError(f"Data processing failed: {str(e)}") from e
+src.components.data_processing.DataProcessingError: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+[INFO]: 2025-08-12 09:20:52,172 - Logger initialized successfully.
+[INFO]: 2025-08-12 09:20:52,173 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-12 09:20:52,180 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-12 09:20:52,181 - Step 1: Data ingestion
+[INFO]: 2025-08-12 09:20:52,184 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-12 09:20:52,190 - Step 3: Model training
+[INFO]: 2025-08-12 09:20:52,194 - Step 4: Model evaluation
+[INFO]: 2025-08-12 09:20:52,195 - Pipeline completed successfully
+[INFO]: 2025-08-12 09:20:52,195 - Results: {'precision_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000019735D20DD0>, 'recall_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000019735CF5DC0>, 'f1_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000019735CF4350>, 'roc_auc_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000001975FC9B1D0>}
+[INFO]: 2025-08-12 09:21:08,915 - Logger initialized successfully.
+[ERROR]: 2025-08-12 09:21:08,921 - Data cleaning step failed: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 212, in process_data
+    processed_df = self.preprocessor.preprocess(df)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 126, in preprocess
+    DataValidator.validate_dataframe(df, {'Amount', 'Time', 'Class'})
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 36, in validate_dataframe
+    raise DataProcessingError(f"Insufficient data: {len(df)} rows (minimum: 100)")
+src.components.data_processing.DataProcessingError: Insufficient data: 2 rows (minimum: 100)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\pipelines\stages\clean_data.py", line 41, in clean_data
+    X_train, X_test, y_train, y_test = processor.process_data(
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 223, in process_data
+    raise DataProcessingError(f"Data processing failed: {str(e)}") from e
+src.components.data_processing.DataProcessingError: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+[INFO]: 2025-08-12 09:31:45,703 - Logger initialized successfully.
+[INFO]: 2025-08-12 09:31:45,705 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-12 09:31:45,713 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-12 09:31:45,714 - Step 1: Data ingestion
+[INFO]: 2025-08-12 09:31:45,718 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-12 09:31:45,724 - Step 3: Model training
+[INFO]: 2025-08-12 09:31:45,728 - Step 4: Model evaluation
+[INFO]: 2025-08-12 09:31:45,730 - Pipeline completed successfully
+[INFO]: 2025-08-12 09:31:45,730 - Results: {'precision_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000027128E7DA60>, 'recall_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000027128E7E600>, 'f1_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000027128E7EA80>, 'roc_auc_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x0000027128E7E840>}
+[INFO]: 2025-08-12 09:32:01,045 - Logger initialized successfully.
+[ERROR]: 2025-08-12 09:32:01,048 - Data cleaning step failed: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 212, in process_data
+    processed_df = self.preprocessor.preprocess(df)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 126, in preprocess
+    DataValidator.validate_dataframe(df, {'Amount', 'Time', 'Class'})
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 36, in validate_dataframe
+    raise DataProcessingError(f"Insufficient data: {len(df)} rows (minimum: 100)")
+src.components.data_processing.DataProcessingError: Insufficient data: 2 rows (minimum: 100)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\pipelines\stages\clean_data.py", line 41, in clean_data
+    X_train, X_test, y_train, y_test = processor.process_data(
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 223, in process_data
+    raise DataProcessingError(f"Data processing failed: {str(e)}") from e
+src.components.data_processing.DataProcessingError: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+[INFO]: 2025-08-12 09:33:20,750 - Logger initialized successfully.
+[INFO]: 2025-08-12 09:33:20,751 - Starting training pipeline with data: data\raw\creditcard.csv
+[INFO]: 2025-08-12 09:33:20,759 - Loaded configuration from: configs\config.yaml
+[INFO]: 2025-08-12 09:33:20,760 - Step 1: Data ingestion
+[INFO]: 2025-08-12 09:33:20,764 - Step 2: Data cleaning and preprocessing
+[INFO]: 2025-08-12 09:33:20,772 - Step 3: Model training
+[INFO]: 2025-08-12 09:33:20,777 - Step 4: Model evaluation
+[INFO]: 2025-08-12 09:33:20,779 - Pipeline completed successfully
+[INFO]: 2025-08-12 09:33:20,780 - Results: {'precision_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000002471AC9A930>, 'recall_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000002471AC9B140>, 'f1_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000002471AC9AA80>, 'roc_auc_score': <zenml.steps.entrypoint_function_utils.StepArtifact object at 0x000002471AC98320>}
+[INFO]: 2025-08-12 09:33:35,500 - Logger initialized successfully.
+[ERROR]: 2025-08-12 09:33:35,523 - Data cleaning step failed: Data processing failed: Insufficient data: 2 rows (minimum: 100)
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 212, in process_data
+    processed_df = self.preprocessor.preprocess(df)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 126, in preprocess
+    DataValidator.validate_dataframe(df, {'Amount', 'Time', 'Class'})
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 36, in validate_dataframe
+    raise DataProcessingError(f"Insufficient data: {len(df)} rows (minimum: 100)")
+src.components.data_processing.DataProcessingError: Insufficient data: 2 rows (minimum: 100)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\pipelines\stages\clean_data.py", line 41, in clean_data
+    X_train, X_test, y_train, y_test = processor.process_data(
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mi這szZawolik\Desktop\Fraud-RLA\src\components\data_processing.py", line 223, in process_data
+    raise DataProcessingError(f"Data processing failed: {str(e)}") from e
+src.components.data_processing.DataProcessingError: Data processing failed: Insufficient data: 2 rows (minimum: 100)

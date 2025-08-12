@@ -1,58 +1,56 @@
-import logging
 import pandas as pd
-
 from zenml import step
 from typing import Tuple
-from typing_extensions import Annotated
-from src.logger.handlers import get_logger
+from typing_extensions import Annotated, Union
 
-from src.components.data_processing import DataCleaner, DataPreprocessStrategy, DataSplitStrategy
+from src.logger.handlers import get_logger
+from src.components.data_processing import DataProcessor, ProcessingConfig
+
 
 @step
-def clean_data(df: pd.DataFrame, 
-               config: list, 
-               save_df: bool = False, 
-               verbose: bool = False
-               ) -> Tuple[Annotated[pd.DataFrame, "X_train"], 
-                          Annotated[pd.DataFrame, "X_test"],
-                          Annotated[pd.Series, "y_train"],
-                          Annotated[pd.Series, "y_test"]]:
-    """
-    Cleans and preprocesses the input DataFrame and splits it into training and testing sets.
-
-    Args:
-        df (pd.DataFrame): Raw input DataFrame to clean and preprocess.
-        config (list): Configuration list containing general and data configs.
-
-    Returns:
-        Tuple containing:
-            - X_train (pd.DataFrame): Training features.
-            - X_test (pd.DataFrame): Testing features.
-            - y_train (pd.Series): Training labels.
-            - y_test (pd.Series): Testing labels.
-
-    Raises:
-        ValueError: If required columns are missing or configurations are invalid.
-        Exception: For other unexpected errors during data cleaning and splitting.
-    """
-    logger = get_logger(verbose)
-
+def clean_data(
+    df: pd.DataFrame, 
+    config: list, 
+    save_df: bool = False
+) -> Tuple[
+    Annotated[pd.DataFrame, "X_train"], 
+    Annotated[pd.DataFrame, "X_test"],
+    Annotated[pd.Series, "y_train"],
+    Annotated[pd.Series, "y_test"]
+]:
+    logger = get_logger(f"{__name__}.clean_data")
+    
     try:
-        logger.info("Starting data preprocessing...")
-        preprocess_strategy = DataPreprocessStrategy()
-        data_cleaner = DataCleaner(df, preprocess_strategy, config)
-        processed_data = data_cleaner.process_data()
-
-        if save_df: processed_data.to_csv("data/processed/processed_data.csv", index=False)
-
-        logger.info("Starting data splitting...")
-        split_strategy = DataSplitStrategy()
-        data_cleaner = DataCleaner(processed_data, split_strategy, config)
-        X_train, X_test, y_train, y_test = data_cleaner.process_data()
-
-        logger.info("Data cleaning and splitting completed successfully.")
+        if not isinstance(config, list) or len(config) != 2:
+            raise ValueError("Config must be a list of [general_config, data_config]")
+            
+        general_config, data_config = config
+        
+        processing_config = ProcessingConfig(
+            test_split=data_config["test_split"],
+            random_state=general_config["seed"],
+            scaler_type="standard",
+            max_null_percentage=0.95,
+            min_samples=100
+        )
+        
+        processor = DataProcessor(processing_config)
+        
+        output_path = "data/processed/processed_data.csv" if save_df else None
+        
+        X_train, X_test, y_train, y_test = processor.process_data(
+            df, 
+            save_processed=save_df,
+            output_path=output_path
+        )
+        
+        logger.info("Data cleaning and splitting completed successfully")
+        logger.info(f"Training set: {len(X_train)} samples, {len(X_train.columns)} features")
+        logger.info(f"Test set: {len(X_test)} samples")
+        logger.info(f"Class distribution - Train: {y_train.value_counts().to_dict()}")
+        
         return X_train, X_test, y_train, y_test
 
     except Exception as e:
-        logger.error(f"Error during data cleaning step: {e}", exc_info=True)
+        logger.error(f"Data cleaning step failed: {e}", exc_info=True)
         raise

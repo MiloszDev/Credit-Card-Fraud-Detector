@@ -9,4 +9,4 @@ configuration_manager = ConfigurationManager(CONFIG_FILE_PATH)
 
 raw_data_path = str(configuration_manager.get_data_config().raw_path)
 
-train_pipeline(raw_data_path, verbose=True)
+train_pipeline(raw_data_path)
